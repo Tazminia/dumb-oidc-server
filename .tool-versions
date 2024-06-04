@@ -1,4 +1,4 @@
-python 3.12.3
+python 3.10.14
 poetry 1.8.3
 kubectl 1.30.0
 kind 0.23.0

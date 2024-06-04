@@ -23,11 +23,11 @@ endif
 install-dependencies: check-python check-poetry
 	${POETRY_BINARY} install --sync 
 
-.PHONY: lint
+.PHONY: lint ➤
 lint: check-python check-poetry install-dependencies
 	${POETRY_BINARY} run isort .
 	${POETRY_BINARY} run black .
 
-.PHONY: tests
+.PHONY: tests ➤
 tests: check-python check-poetry lint
 	${POETRY_BINARY} run pytest tests
