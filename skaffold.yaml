@@ -1,0 +1,23 @@
+apiVersion: skaffold/v4beta10
+kind: Config
+metadata:
+  name: dumb-oidc-server-build-and-deploy
+build:
+  local:
+    push: false 
+  artifacts:
+    - image: tazminia/dumb-oidc-server
+      context: oidc_server
+      docker:
+        dockerfile: Dockerfile
+manifests:
+  rawYaml:
+    - tools/kubernetes/dumb_oidc_server.yaml
+deploy:
+  kubectl:
+    defaultNamespace: tazminia
+profiles:
+  - name: local
+    requiresAllActivations: false
+
+

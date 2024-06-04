@@ -1,0 +1,62 @@
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  labels:
+    kubernetes.io/metadata.name: tazminia
+    app: tazminia
+  name: tazminia
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dumb-oidc-server
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: dumb-oidc-server
+  template:
+    metadata:
+      labels:
+        app: dumb-oidc-server
+    spec:
+      containers:
+      - name: dumb-oidc-server
+        image: tazminia/dumb-oidc-server
+        ports:
+        - containerPort: 80
+        envFrom:
+        - configMapRef:
+            name: dumb-oidc-server
+        - secretRef:
+            name: dumb-oidc-server
+        livenessProbe:
+          httpGet:
+            path: /_health
+            port: 80
+          initialDelaySeconds: 5
+          periodSeconds: 5
+          timeoutSeconds: 1
+          successThreshold: 1
+          failureThreshold: 3
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: dumb-oidc-server
+data:
+  ENV_VAR_1: "value-1"
+  ENV_VAR_2: "value-2"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: dumb-oidc-server
+spec:
+  type: ClusterIP
+  ports:
+    - port: 80
+      targetPort: 80
+  selector:
+    app: dumb-oidc-server

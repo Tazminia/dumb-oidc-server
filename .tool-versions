@@ -1,0 +1,6 @@
+python 3.12.3
+poetry 1.8.3
+kubectl 1.30.0
+kind 0.23.0
+kubectx 0.9.5
+skaffold 2.12.0
